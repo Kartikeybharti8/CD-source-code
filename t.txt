@@ -1,0 +1,539 @@
+EXPERIMENT NO. 1 
+AIM:To identify whether given string is keyword or not. 
+PROGRAM: 
+#include<stdio.h> 
+#include<conio.h> 
+#include<string.h> 
+void main() 
+{ 
+ char keyword[32][10]={"auto","double","int","struct","break","else","long", 
+ "switch","case","enum","register","typedef","char", 
+ "extern","return","union","const","float","short", 
+ "unsigned","continue","for","signed","void","default", 
+ "goto","sizeof","voltile","do","if","static","while"} ; 
+char string[10]; 
+int flag=0,i; 
+printf("enter any string:"); 
+ gets(string); 
+ for(i=0;i<32;i++) 
+ { 
+ if(strcmp(string,keyword[i])==0) 
+ { 
+ flag=1; 
+ } 
+ } 
+ if(flag==1) 
+printf("%s is a keyword",string); 
+ else 
+printf("%s is not a keyword",string); 
+getch(); 
+}
+
+
+####################################################################
+
+
+EXPERIMENT NO. 2 
+AIM:Count total no. of keywords in a file. [Taking file from user] 
+PROGRAM: 
+#include<stdio.h> 
+#include<string.h> 
+intmain(){ 
+ FILE *fp; 
+ char str[30]; 
+ char 
+key[32][10]={"int","char","float","void","while","do","for","static","Extern","registe
+r"}; 
+ char f=0,i,count=0; 
+ fp=fopen("file1.txt","r"); 
+ while(fscanf(fp,"%s",str)!=EOF){ 
+ f=0; 
+ for(i=0;i<10;i++){ 
+ if(!(strcmp(key[i],str))){ 
+ f=1; 
+ } 
+ } 
+ if(f==1) 
+ count++; 
+ } 
+ printf("%d",count); 
+return 0; 
+} 
+CODE OUTPUT: 
+File Name: file1.txt 
+Int =2 
+Float = 1 
+Void =1 
+Static = 1 
+Total = 5 
+
+
+####################################################################
+
+
+EXPERIMENT NO. 3 
+AIM:Count total no of operators in a file. [Taking file from user] 
+PROGRAM: 
+#include<stdio.h> 
+#include<conio.h> 
+void main() { 
+ char ch; 
+ int count=0; 
+ FILE *fptr; 
+ clrscr(); 
+ fptr=fopen("text.txt","w"); 
+ if(fptr==NULL) { 
+ printf("File can't be created\a"); 
+ getch(); 
+ exit(0); 
+ } 
+ printf("Enter some text and press enter key:\n"); 
+ while((ch=getche())!='\r') { 
+ fputc(ch,fptr); 
+ } 
+ fclose(fptr); 
+ fptr=fopen("text.txt","r"); 
+ printf("\nContents of the File is:"); 
+ while((ch=fgetc(fptr))!=EOF) { 
+ count++; 
+ printf("%c",ch); 
+ } 
+ fclose(fptr); 
+ printf("\nThe number of characters present in file is: %d",count); 
+ getch(); 
+} 
+CODE OUTPUT: 
+File Name: sample1.txt 
+Number of Operator count = 12
+
+
+####################################################################
+
+
+EXPERIMENT NO. 4 
+AIM:Count total occurrence of each character in a given file. [Taking file from user] 
+PROGRAM: 
+#include <stdio.h> 
+#include <string.h> 
+intmain() 
+{ 
+ char string[100]; 
+int c = 0, count[26] = {0}, x; 
+printf("Enter a string\n"); 
+ gets(string); 
+ while (string[c] != '\0') { 
+ /** Considering characters from 'a' to 'z' only and ignoring others. */ 
+ if (string[c] >= 'a' && string[c] <= 'z') { 
+ x = string[c] - 'a'; 
+ count[x]++; 
+ } 
+c++; 
+ } 
+ for (c = 0; c < 26; c++) 
+printf("%c occurs %d times in the string.\n", c + 'a', count[c]); 
+ return 0; 
+} 
+
+
+
+####################################################################
+
+
+
+EXPERIMENT NO. 5 
+AIM:Write a C program to insert, delete and display the entries in Symbol Table. 
+PROGRAM: 
+#include<stdio.h> 
+#include<conio.h> 
+#include<alloc.h> 
+#include<string.h> 
+#include<stdlib.h> 
+#define NULL 0 
+int size=0; 
+void Insert(); 
+void Display(); 
+void Delete(); 
+intSearch(char lab[]); 
+void Modify(); 
+structSymbTab 
+{ 
+ char label[10],symbol[10]; 
+intaddr; 
+structSymbTab *next;}; 
+structSymbTab *first,*last; 
+void main() 
+{ 
+intop,y; 
+ char la[10]; 
+clrscr(); 
+ do 
+ { 
+printf("\n\tSYMBOL TABLE IMPLEMENTATION\n"); 
+ 
+printf("\n\t1.INSERT\n\t2.DISPLAY\n\t3.DELETE\n\t4.SEARCH\n\t5.MODIFY\n\
+t6.END\n"); 
+printf("\n\tEnter your option : "); 
+scanf("%d",&op); 
+ switch(op) 
+ { 
+ case 1: 
+Insert(); 
+ break; 
+ case 2: 
+Display(); 
+ break; 
+ case 3: 
+Delete(); 
+ break; 
+ case 4: 
+printf("\n\tEnter the label to be searched : "); 
+scanf("%s",la); 
+ y=Search(la); 
+printf("\n\tSearch Result:"); 
+ if(y==1) 
+printf("\n\tThe label is present in the symbol table\n"); 
+ else 
+printf("\n\tThe label is not present in the symbol table\n"); 
+ break; 
+ case 5: 
+Modify(); 
+ break; 
+ case 6: 
+exit(0); 
+ } 
+}while(op<6); 
+getch(); 
+} 
+void Insert() 
+{ 
+int n; 
+ char l[10]; 
+printf("\n\tEnter the label : "); 
+scanf("%s",l); 
+ n=Search(l); 
+ if(n==1) 
+printf("\n\tThe label exists already in the symbol table\n\tDuplicate can't be 
+inserted"); 
+ else 
+ { 
+structSymbTab *p; 
+ p=malloc(sizeof(structSymbTab)); 
+strcpy(p->label,l); 
+printf("\n\tEnter the symbol : "); 
+scanf("%s",p->symbol); 
+printf("\n\tEnter the address : "); 
+scanf("%d",&p->addr); 
+ p->next=NULL; 
+ if(size==0) 
+ { 
+ first=p; 
+ last=p; 
+ } 
+ else 
+ { 
+ last->next=p; 
+ last=p; 
+ } 
+ size++; 
+ } 
+printf("\n\tLabel inserted\n"); 
+} 
+void Display() 
+{ 
+inti; 
+structSymbTab *p; 
+ p=first; 
+printf("\n\tLABEL\t\tSYMBOL\t\tADDRESS\n"); 
+ for(i=0;i<size;i++) 
+ { 
+printf("\t%s\t\t%s\t\t%d\n",p->label,p->symbol,p->addr); 
+ p=p->next; 
+ } 
+} 
+intSearch(char lab[]) 
+{ 
+inti,flag=0; 
+structSymbTab *p; 
+ p=first; 
+ for(i=0;i<size;i++) 
+ { 
+ if(strcmp(p->label,lab)==0) 
+ flag=1; 
+ p=p->next; 
+ } 
+ return flag; 
+} 
+void Modify() 
+{ 
+ char l[10],nl[10]; 
+intadd,choice,i,s; 
+structSymbTab *p; 
+ p=first; 
+printf("\n\tWhat do you want to modify?\n"); 
+printf("\n\t1.Only the label\n\t2.Only the address\n\t3.Both the label and address\n"); 
+printf("\tEnter your choice : "); 
+scanf("%d",&choice); 
+ switch(choice) 
+ { 
+ case 1: 
+printf("\n\tEnter the old label : "); 
+scanf("%s",l); 
+ s=Search(l); 
+ if(s==0) 
+printf("\n\tLabel not found\n"); 
+ else 
+ { 
+printf("\n\tEnter the new label : "); 
+scanf("%s",nl); 
+ for(i=0;i<size;i++) 
+ { 
+ if(strcmp(p->label,l)==0) 
+strcpy(p->label,nl); 
+ p=p->next; 
+ } 
+printf("\n\tAfter Modification:\n"); 
+Display(); 
+ } 
+ break; 
+ case 2: 
+printf("\n\tEnter the label where the address is to be modified : "); 
+scanf("%s",l); 
+ s=Search(l); 
+ if(s==0) 
+printf("\n\tLabel not found\n"); 
+ else 
+ { 
+printf("\n\tEnter the new address : "); 
+scanf("%d",&add); 
+ for(i=0;i<size;i++) 
+ { 
+ if(strcmp(p->label,l)==0) 
+ p->addr=add; 
+ p=p->next; 
+ } 
+printf("\n\tAfter Modification:\n"); 
+Display(); 
+ } 
+ break; 
+ case 3: 
+printf("\n\tEnter the old label : "); 
+scanf("%s",l); 
+ s=Search(l); 
+ if(s==0) 
+printf("\n\tLabel not found\n"); 
+ else 
+ { 
+printf("\n\tEnter the new label : "); 
+scanf("%s",nl); 
+printf("\n\tEnter the new address : "); 
+scanf("%d",&add); 
+ for(i=0;i<size;i++) 
+ { 
+ if(strcmp(p->label,l)==0) 
+ { 
+strcpy(p->label,nl); 
+ p->addr=add; 
+ } 
+ p=p->next; 
+ } 
+printf("\n\tAfter Modification:\n"); 
+Display(); 
+ } 
+ break; 
+ } 
+} 
+void Delete() 
+{ 
+int a; 
+ char l[10]; 
+structSymbTab *p,*q; 
+ p=first; 
+printf("\n\tEnter the label to be deleted : "); 
+scanf("%s",l); 
+ a=Search(l); 
+ if(a==0) 
+printf("\n\tLabel not found\n"); 
+ else 
+ { 
+ if(strcmp(first->label,l)==0) 
+ first=first->next; 
+ else if(strcmp(last->label,l)==0) 
+ { 
+ q=p->next; 
+ while(strcmp(q->label,l)!=0) 
+ { 
+ p=p->next; 
+ q=q->next; 
+ } 
+ p->next=NULL; 
+ last=p; 
+ } 
+ else 
+ { 
+ q=p->next; 
+ while(strcmp(q->label,l)!=0) 
+ { 
+ p=p->next; 
+ q=q->next; 
+ } 
+ p->next=q->next; 
+ } 
+ size--; 
+printf("\n\tAfter Deletion:\n"); 
+Display(); 
+ } 
+} 
+
+
+####################################################################
+
+
+EXPERIMENT NO. 6 
+AIM:Write a LEX program to identify following: 
+a) Valid mobile number 
+b)Valid url 
+c)Valid identifier 
+d)Valid date (dd/mm/yyyy) 
+PROGRAM: (a) 
+/* Lex Program to check valid Mobile Number */ 
+%{ 
+ /* Definition section */ 
+%} 
+/* Rule Section */ 
+%% 
+[1-9][0-9]{9} {printf("\nMobile Number Valid\n");} 
+.+ {printf("\nMobile Number Invalid\n");} 
+%% 
+// driver code 
+intmain() 
+{ 
+ printf("\nEnter Mobile Number : "); 
+ yylex(); 
+ printf("\n"); 
+ return 0; 
+}
+
+
+PROGRAM: (b) 
+%% 
+((http)|(ftp))s?:\/\/[a-zA-Z0-9]{2, }(\.[a-z]{2, }) 
+ +(\/[a-zA-Z0-9+=?]*)* {printf("\nURL Valid\n");} 
+.+ {printf("\nURL Invalid\n");} 
+%% 
+// driver program 
+void main() 
+{ 
+ printf("\nEnter URL : "); 
+ yylex(); 
+ printf("\n"); 
+}
+
+
+PROGRAM: (c) 
+/*lex code to determine whether input is an identifier or not*/ 
+% { 
+#include <stdio.h> 
+ % 
+} 
+ / rule section % % 
+ // regex for valid identifiers 
+ ^[a - z A - Z _][a - z A - Z 0 - 9 _] * printf("Valid Identifier"); 
+// regex for invalid identifiers 
+^[^a - z A - Z _] printf("Invalid Identifier"); 
+.; 
+% % 
+ main() 
+{ 
+ yylex(); 
+}
+
+
+
+PROGRAM: (d) 
+/* Lex program to check if a date is valid or not */ 
+%{ 
+/* Definition section */ 
+#include<stdio.h> 
+inti=0, yr=0, valid=0; 
+%} 
+/* Rule Section */ 
+%% 
+([0-2][0-9]|[3][0-1])\/((0(1|3|5|7|8))|(10|12)) 
+ \/([1-2][0-9][0-9][-0-9]) {valid=1;} 
+([0-2][0-9]|30)\/((0(4|6|9))|11) 
+ \/([1-2][0-9][0-9][0-9]) {valid=1;} 
+([0-1][0-9]|2[0-8])\/02 
+ \/([1-2][0-9][0-9][0-9]) {valid=1;} 
+29\/02\/([1-2][0-9][0-9][0-9]) 
+ { while(yytext[i]!='/')i++; i++; 
+ while(yytext[i]!='/')i++;i++; 
+ while(i<yyleng)yr=(10*yr)+(yytext[i++]-'0'); 
+ if(yr%4==0||(yr%100==0&&yr%400!=0))valid=1;} 
+%% 
+// driver code 
+main() 
+{ 
+yyin=fopen("vpn.txt", "r"); 
+yylex(); 
+if(valid==1) printf("It is a valid date\n"); 
+else printf("It is not a valid date\n"); 
+} 
+intyywrap() 
+{ 
+return 1; 
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
